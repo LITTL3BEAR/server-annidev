@@ -6,24 +6,23 @@ const connectDB = require('./config/db');
 const handleError = require('./middlewares/errorMiddleware');
 const ErrorHandler = require('./middlewares/errorHandler');
 
-const { PORT = 3000, HOST = '0.0.0.0' } = process.env;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 connectDB();
 
 app
-  .use(cors())
+  .use(cors({
+    origin: 'https://annidev-client.herokuapp.com',
+    credentials: true,
+  }))
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
 
-  .use(express.static(path.join(__dirname, '../client/dist/annidev-client')))
+  .use(express.static(path.join(__dirname, 'public')))
 
   .use('/api/manga', require('./routes/mangaRoute'))
-  .get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist/annidev-client/index.html'))
-  })
-
   .use((req, res, next) => next(new ErrorHandler(404, 'API route not found')))
   .use(handleError);
 
-app.listen(PORT, () => console.log(`Server running on http://${HOST}:${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
