@@ -12,10 +12,7 @@ const app = express();
 connectDB();
 
 app
-  .use(cors({
-    origin: 'https://annidev-client.herokuapp.com',
-    credentials: true,
-  }))
+  .use(cors())
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
 
