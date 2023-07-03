@@ -1,24 +1,20 @@
+const ErrorHandler = require('../middlewares/errorHandler');
 const { spawn } = require('child_process');
 
 exports.callPython = (path, ...inputs) => {
   return new Promise((resolve, reject) => {
     const python = spawn('python', [path, ...inputs]);
+    let result
 
-    python.stdout.on('data', (data) => {
-      console.log(`Python script stdout: ${data}`);
-    });
+    python.stdout.on('data', (data) => result = data.toString());
 
-    python.on('error', (error) => {
-      console.error(`An error occurred while executing the Python script: ${error.message}`);
-    });
+    python.stderr.on('data', (data) => result = data.toString());
 
-    python.stderr.on('data', (data) => {
-      console.error(`Python script stderr: ${data}`);
-    });
+    python.on('error', (error) => result = error.message);
 
     python.on('close', (code) => {
-      console.log(`Python script exited with code ${code}`);
-      resolve(code);
+      if (code == 0) resolve(result);
+      else reject(new ErrorHandler(500, result));
     });
   })
 }
