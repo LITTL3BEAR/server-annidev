@@ -1,36 +1,25 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const mangaSchema = new mongoose.Schema({
-  title: {
+const MangaSchema = new Schema({
+  name: {
     type: String,
     required: true,
-    unique: true,
-    trim: true,
-    lowercase: true
-  },
-  author: {
-    type: String,
     trim: true
   },
+  author: String,
+  link: String,
   chapter: {
     type: Number,
+    default: 0,
     required: true
   },
   status: {
     type: String,
-    trim: true,
-    lowercase: true
-  },
-  link: {
-    type: String,
-    trim: true
+    enum: ['New', 'Read', 'Done'],
+    default: 'New',
+    required: true
   }
-}, {
-  timestamps: true,
-  versionKey: false
-}
-);
+}, { timestamps: true });
 
-const Manga = mongoose.model('mangas', mangaSchema);
-
-module.exports = Manga;
+module.exports = mongoose.model('Manga', MangaSchema);

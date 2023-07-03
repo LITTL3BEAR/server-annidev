@@ -8,7 +8,7 @@ const ErrorHandler = require('./middlewares/errorHandler');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
-
+ 
 connectDB();
 
 app
@@ -18,7 +18,7 @@ app
 
   .use(express.static(path.join(__dirname, 'public')))
 
-  .use('/api/manga', require('./routes/mangaRoute'))
+  .use('/api', require('./routes'))
   .use((req, res, next) => next(new ErrorHandler(404, 'API route not found')))
   .use(handleError);
 

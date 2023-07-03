@@ -3,6 +3,8 @@ const router = express.Router();
 
 const mangaController = require('../controllers/mangaController');
 
+router.get('/sync', mangaController.syncManga);
+
 router.get('/', mangaController.getAll);
 router.get('/:id', mangaController.getOne);
 router.post('/', mangaController.create);

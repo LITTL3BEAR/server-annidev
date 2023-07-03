@@ -1,5 +1,6 @@
-const Manga = require('../models/mangaModel');
 const ErrorHandler = require('../middlewares/errorHandler');
+const Manga = require('../models/mangaModel');
+const { callPython } = require('../services/callPython');
 
 exports.getAll = async (req, res, next) => {
   try {
@@ -49,3 +50,13 @@ exports.remove = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.syncManga = async (req, res, next) => {
+  try {
+    const item = await callPython('./script/sync-manga.py', process.env.MONGODB_URI);
+    res.send(item);
+  } catch (err) {
+    next(err);
+  }
+};
+
