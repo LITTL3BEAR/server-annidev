@@ -19,18 +19,18 @@ const OrderSchema = new Schema({
   duration: {
     type: Number,
     default: 0,
-    required: true
+    set: v => v || 0
   },
   paid: {
     type: Number,
     default: 0,
-    required: true
+    set: v => v || 0
   },
   status: {
     type: String,
     enum: ['Ordered', 'Shipped', 'Arrived', 'Ready', 'Cancelled'],
     default: 'Ordered',
-    required: true
+    set: v => v || 'Ordered'
   }
 }, { timestamps: true });
 

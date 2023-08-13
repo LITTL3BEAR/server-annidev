@@ -12,13 +12,13 @@ const MangaSchema = new Schema({
   chapter: {
     type: Number,
     default: 0,
-    required: true
+    set: v => v || 0
   },
   status: {
     type: String,
     enum: ['New', 'Read', 'Done'],
     default: 'New',
-    required: true
+    set: v => v || 'New'
   }
 }, { timestamps: true });
 
