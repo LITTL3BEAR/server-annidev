@@ -1,0 +1,28 @@
+service: server-service
+runtime: nodejs16  # Matches the version specified in your package.json
+env: standard
+instance_class: F1  # This is the smallest instance class
+
+automatic_scaling:
+  target_cpu_utilization: 0.65
+  min_instances: 0  # Scale to zero instances when no requests are made
+  max_instances: 1  # Limit the number of instances to control costs
+
+env_variables:
+  NODE_ENV: 'production'
+  MONGODB_URI: 'mongodb+srv://annidev:annidev@annidev-prod.qxmvtzt.mongodb.net/annidev_db?retryWrites=true&w=majority'
+
+handlers:
+  - url: /.*
+    script: auto
+    secure: always
+
+# Node.js apps are required to handle HTTP requests at the port number specified by the PORT environment variable.
+entrypoint: npm start
+
+# The following is for setting up any required networking or disk resources
+network: {}
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
