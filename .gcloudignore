@@ -1,4 +1,6 @@
 # Not upload to GCP
 
 node_modules/
+package-lock.json
+.git/
 .gitignore
