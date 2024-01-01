@@ -1,2 +1,4 @@
-node_modules
-.env
+# Not upload to GIT
+
+node_modules/
+package-lock.json

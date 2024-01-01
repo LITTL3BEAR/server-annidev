@@ -6,7 +6,7 @@ const connectDB = require('./config/db');
 const handleError = require('./middlewares/errorMiddleware');
 const ErrorHandler = require('./middlewares/errorHandler');
 
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 const app = express();
  
 connectDB();
@@ -22,4 +22,4 @@ app
   .use((req, res, next) => next(new ErrorHandler(404, 'API route not found')))
   .use(handleError);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(port, () => console.log(`Server running on port ${port}`));
