@@ -1,9 +1,9 @@
-const ErrorHandler = require('../../middlewares/errorHandler');
-const { Customer } = require('../../models/storeModel');
+const ErrorHandler = require('../../middleware/errorHandler');
+const { Order } = require('../../models/storeModel');
 
 exports.getAll = async () => {
   try {
-    const items = await Customer.find();
+    const items = await Order.find();
     return items;
   } catch (err) {
     throw err;
@@ -12,7 +12,7 @@ exports.getAll = async () => {
 
 exports.getOne = async (name) => {
   try {
-    const item = await Customer.findOne({ name });
+    const item = await Order.findOne({ name });
     if (!item) throw new ErrorHandler(404, 'Item not found');
     return item;
   } catch (err) {
@@ -22,7 +22,7 @@ exports.getOne = async (name) => {
 
 exports.create = async (data) => {
   try {
-    const item = new Customer(data);
+    const item = new Order(data);
     const newItem = await item.save();
     return newItem;
   } catch (err) {
@@ -32,7 +32,7 @@ exports.create = async (data) => {
 
 exports.update = async (id, data) => {
   try {
-    const item = await Customer.findByIdAndUpdate(id, data, { new: true });
+    const item = await Order.findByIdAndUpdate(id, data, { new: true });
     if (!item) throw new ErrorHandler(404, 'Item not found');
     return item;
   } catch (err) {
@@ -42,7 +42,7 @@ exports.update = async (id, data) => {
 
 exports.remove = async (id) => {
   try {
-    const item = await Customer.findByIdAndRemove(id);
+    const item = await Order.findByIdAndRemove(id);
     if (!item) throw new ErrorHandler(404, 'Item not found');
     return item;
   } catch (err) {

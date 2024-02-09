@@ -1,4 +1,4 @@
-const ErrorHandler = require('../middlewares/errorHandler');
+const ErrorHandler = require('../middleware/errorHandler');
 const Manga = require('../models/mangaModel');
 const { callPython } = require('../services/callPython');
 
@@ -53,7 +53,9 @@ exports.remove = async (req, res, next) => {
 
 exports.syncManga = async (req, res, next) => {
   try {
-    const item = await callPython('./script/sync-manga.py', process.env.MONGODB_URI);
+    console.log('object');
+    const item = await callPython('./scripts/sync-manga.py', process.env.MONGODB_URI);
+    console.log('item: ',item);
     res.send(item);
   } catch (err) {
     next(err);

@@ -2,45 +2,6 @@
 
 ANNIDEV is a web application built with the MEAN stack (MongoDB, Express.js, Angular, and Node.js). The project is divided into two main directories: the client and the server.
 
-## Structure
-```
-/annidev
-|---/server
-| |---/config
-| |---/controllers
-| |---/middlewares
-| |---/models
-| |---/node_modules
-| |---/routes
-| |---.env
-| |---package-lock.json
-| |---package.json
-| |---server.js
-|---/client
-| |---/.angular
-| |---/.vscode
-| |---/dist
-| |---/node_modules
-| |---/src
-| | |---/app
-| | | |---/core
-| | | |---/modules
-| | | | |---/manga
-| | | |---/shared
-| | |---/assets
-| | |---/environments
-| | |---index.html
-| | |---main.ts
-| | |---styles.scss
-| |---.editorconfig
-| |---.gitignore
-| |---angular.json
-| |---package.json
-| |---tsconfig.json
-|---.gitignore
-|---README.md
-|---Procfile
-```
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.

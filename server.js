@@ -3,8 +3,8 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const connectDB = require('./config/db');
-const handleError = require('./middlewares/errorMiddleware');
-const ErrorHandler = require('./middlewares/errorHandler');
+const handleError = require('./src/middleware/errorMiddleware');
+const ErrorHandler = require('./src/middleware/errorHandler');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -18,7 +18,7 @@ app
 
   .use(express.static(path.join(__dirname, 'public')))
 
-  .use('/api', require('./routes'))
+  .use('/api', require('./src/routes'))
   .use((req, res, next) => next(new ErrorHandler(404, 'API route not found')))
   .use(handleError);
 

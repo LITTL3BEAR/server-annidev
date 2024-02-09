@@ -1,4 +1,4 @@
-const ErrorHandler = require('../middlewares/errorHandler');
+const ErrorHandler = require('../middleware/errorHandler');
 const { spawn } = require('child_process');
 
 exports.callPython = (path, ...inputs) => {
@@ -13,6 +13,7 @@ exports.callPython = (path, ...inputs) => {
     python.on('error', (error) => result = error.message);
 
     python.on('close', (code) => {
+      console.log({code,result});
       if (code == 0) resolve(result);
       else reject(new ErrorHandler(500, result));
     });

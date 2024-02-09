@@ -1,4 +1,4 @@
-const ErrorHandler = require('../../middlewares/errorHandler');
+const ErrorHandler = require('../../middleware/errorHandler');
 const { Product } = require('../../models/storeModel');
 
 exports.getAll = async () => {
