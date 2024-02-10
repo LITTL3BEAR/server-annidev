@@ -19,13 +19,17 @@ def update_db(manga):
 
 client = MongoClient(sys.argv[1])
 db = client['annidev_db']
-collection = db['Manga']
+collection = db['mangas']
 
 for manga in collection.find():
   if not manga['link']: continue
-  chapter = scrape_web(manga['link'])
-  manga['status'] = "new" if int(chapter) > int(manga['chapter']) else "read"
-  result = update_db(manga)
-  print(f"{manga['name']}|{chapter}|{manga['status']}")
 
+  chapter = scrape_web(manga['link'])
+  if not chapter: continue
+
+  manga['status'] = "new" if int(chapter) > int(manga['chapter']) else "read"
+  update_db(manga)
+  # print(f"{manga['name']}|{chapter}|{manga['status']}")
+
+print(f"Sync Done")
 client.close()

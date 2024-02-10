@@ -53,10 +53,8 @@ exports.remove = async (req, res, next) => {
 
 exports.syncManga = async (req, res, next) => {
   try {
-    console.log('object');
-    const item = await callPython('./scripts/sync-manga.py', process.env.MONGODB_URI);
-    console.log('item: ',item);
-    res.send(item);
+    const result = await callPython('./scripts/sync-manga.py', process.env.MONGODB_URI);
+    res.send(result);
   } catch (err) {
     next(err);
   }

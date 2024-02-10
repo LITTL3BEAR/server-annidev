@@ -16,9 +16,9 @@ const MangaSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['New', 'Read', 'Done'],
-    default: 'New',
-    set: v => v || 'New'
+    enum: ['new', 'read', 'done'],
+    default: 'new',
+    set: v => v || 'new'
   }
 }, { timestamps: true });
 
