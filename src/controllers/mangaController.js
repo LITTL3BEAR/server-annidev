@@ -1,6 +1,7 @@
 const ErrorHandler = require('../middleware/errorHandler');
 const Manga = require('../models/mangaModel');
 const { callPython } = require('../services/callPython');
+const cheerio = require('cheerio');
 
 exports.getAll = async (req, res, next) => {
   try {
@@ -53,10 +54,30 @@ exports.remove = async (req, res, next) => {
 
 exports.syncManga = async (req, res, next) => {
   try {
-    const result = await callPython('./scripts/sync-manga.py', process.env.MONGODB_URI);
-    res.send(result);
+    const mangaList = await Manga.find();
+    for (let i = 0; i < mangaList.length; i++) {
+      const { _id, name, chapter, status, link } = mangaList[i];
+      if (!link) continue
+      const latestChapter = await getLatestChapter(link)
+      if (!latestChapter) throw Error(`Failed to sync manga ${name}: ${latestChapter} chapter invalid`)
+
+      if (chapter < latestChapter) await Manga.findByIdAndUpdate(_id, { chapter, status: 'new' });
+      else if (chapter == latestChapter && status == 'new') await Manga.findByIdAndUpdate(_id, { status: 'read' });
+    }
+    res.send('Success');
   } catch (err) {
     next(err);
   }
 };
+
+async function getLatestChapter(url) {
+  const response = await fetch(url);
+  const html = await response.text();
+  const $ = cheerio.load(html);
+
+  const elements = $('.eph-num');
+  const chapter = parseInt(elements.eq(1).find('span').text().match(/\d+/)[0])
+
+  return chapter
+}
 

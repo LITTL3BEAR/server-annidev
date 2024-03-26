@@ -31,12 +31,10 @@ collection = db['mangas']
 for manga in collection.find():
   if not manga['link']: continue
   chapter = scrape_web(manga['link'])
-  print(f"{manga['name']}")
-#   if not chapter: continue
-
-#   manga['status'] = "new" if int(chapter) > int(manga['chapter']) else "read"
-#   update_db(manga)
-#   # print(f"{manga['name']}|{chapter}|{manga['status']}")
+  if not chapter: continue
+  manga['status'] = "new" if int(chapter) > int(manga['chapter']) else "read"
+  update_db(manga)
+  # print(f"{manga['name']}|{chapter}|{manga['status']}")
 
 print(f"Sync Done")
 client.close()
