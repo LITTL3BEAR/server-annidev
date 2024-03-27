@@ -59,7 +59,6 @@ exports.syncManga = async (req, res, next) => {
       const { _id, name, chapter, status, link } = mangaList[i];
       if (!link) continue
       const latestChapter = await getLatestChapter(link)
-      if (!latestChapter) throw Error(`Failed to sync manga ${name}: ${latestChapter} chapter invalid`)
 
       if (chapter < latestChapter) await Manga.findByIdAndUpdate(_id, { chapter, status: 'new' });
       else if (chapter == latestChapter && status == 'new') await Manga.findByIdAndUpdate(_id, { status: 'read' });
@@ -77,6 +76,7 @@ async function getLatestChapter(url) {
 
   const elements = $('.eph-num');
   const chapter = parseInt(elements.eq(1).find('span').text().match(/\d+/)[0])
+  if (typeof chapter == 'number') throw Error('Invalid chapter')
 
   return chapter
 }
