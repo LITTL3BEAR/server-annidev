@@ -1,10 +1,9 @@
 const handleError = (err, req, res, next) => {
-    const { statusCode = 500, message = 'Internal Server Error', stack } = err;
-    console.log({ statusCode, message, stack });
+    const { status = 500, message = 'Internal Server Error', stack } = err;
+    console.log({ status, message, stack });
 
-    res.status(statusCode).json({
-        status: 'error',
-        statusCode,
+    res.status(status).json({
+        status,
         message
     });
 }
