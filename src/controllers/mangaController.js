@@ -60,7 +60,7 @@ exports.syncManga = async (req, res, next) => {
       if (!link || !chapter) continue
       const latestChapter = await getLatestChapter(link)
 
-      if (chapter < latestChapter) await Manga.findByIdAndUpdate(_id, { chapter, status: 'new' });
+      if (chapter < latestChapter) await Manga.findByIdAndUpdate(_id, { chapter, latestChapter, status: 'new' });
       else if (chapter == latestChapter && status == 'new') await Manga.findByIdAndUpdate(_id, { status: 'read' });
     }
     res.send({ message: 'Success' })
@@ -81,4 +81,3 @@ async function getLatestChapter(url) {
   console.log('syncManga|getLatestChapter|chapter:', chapter);
   return chapter
 }
-
