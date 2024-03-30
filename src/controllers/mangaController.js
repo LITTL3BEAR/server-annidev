@@ -44,7 +44,7 @@ exports.update = async (req, res, next) => {
 
 exports.remove = async (req, res, next) => {
   try {
-    const item = await Manga.findByIdAndRemove(req.params.id);
+    const item = await Manga.findByIdAndDelete(req.params.id);
     if (!item) throw new ErrorHandler(404, 'Item not found');
     res.send(item);
   } catch (err) {
@@ -57,27 +57,28 @@ exports.syncManga = async (req, res, next) => {
     const mangaList = await Manga.find();
     for (let i = 0; i < mangaList.length; i++) {
       const { _id, name, chapter, status, link } = mangaList[i];
-      if (!link) continue
+      if (!link || !chapter) continue
       const latestChapter = await getLatestChapter(link)
 
       if (chapter < latestChapter) await Manga.findByIdAndUpdate(_id, { chapter, status: 'new' });
       else if (chapter == latestChapter && status == 'new') await Manga.findByIdAndUpdate(_id, { status: 'read' });
     }
-    res.send('Success');
+    res.send({ message: 'Success' })
   } catch (err) {
     next(err);
   }
 };
 
 async function getLatestChapter(url) {
+  console.log('syncManga|getLatestChapter|url:', url);
   const response = await fetch(url);
   const html = await response.text();
   const $ = cheerio.load(html);
 
   const elements = $('.eph-num');
   const chapter = parseInt(elements.eq(1).find('span').text().match(/\d+/)[0])
-  if (typeof chapter == 'number') throw Error('Invalid chapter')
-
+  if (typeof chapter != 'number') throw Error('Invalid chapter')
+  console.log('syncManga|getLatestChapter|chapter:', chapter);
   return chapter
 }
 

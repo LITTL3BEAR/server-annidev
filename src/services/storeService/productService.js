@@ -42,7 +42,7 @@ exports.update = async (id, data) => {
 
 exports.remove = async (id) => {
   try {
-    const item = await Product.findByIdAndRemove(id);
+    const item = await Product.findByIdAndDelete(id);
     if (!item) throw new ErrorHandler(404, 'Item not found');
     return item;
   } catch (err) {
