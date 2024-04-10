@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const MangaSchema = new Schema({
+const MangaSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -9,19 +8,16 @@ const MangaSchema = new Schema({
   },
   currentChapter: {
     type: Number,
-    default: 0,
-    set: v => v || 0
+    default: 0
   },
   latestChapter: {
     type: Number,
-    default: 0,
-    set: v => v || 0
+    default: 0
   },
   status: {
     type: String,
-    enum: ['new', 'read', 'done'],
-    default: 'new',
-    set: v => v || 'new'
+    enum: ['', 'new', 'read', 'done'],
+    default: ''
   },
   website: String
 }, { timestamps: true });
