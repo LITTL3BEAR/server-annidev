@@ -5,7 +5,8 @@ const cheerio = require('cheerio');
 
 exports.getAll = async (req, res, next) => {
   try {
-    const items = await Manga.find();
+    const conditions = req.query;
+    const items = await Manga.find(conditions);
     res.send(items);
   } catch (err) {
     next(err);
